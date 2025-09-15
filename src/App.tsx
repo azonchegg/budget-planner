@@ -9,7 +9,8 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, AreaChart, Area, XAx
 import { Plus, Filter, PieChart as PieChartIcon, BarChart3, Trash2, Wallet, TrendingUp, Calendar } from 'lucide-react';
 import { Expense, Settings, Period } from './types';
 import { CategoryManagement } from './components/CategoryManagement';
-import { 
+import { Header } from './components/Header'
+import {
   formatMoney, 
   generateId, 
   getDateRange, 
@@ -22,6 +23,7 @@ import {
   defaultSettings,
   CURRENCY_SYMBOLS
 } from './utils';
+import {KPICards} from "./components/KPICards";
 
 function App() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -93,61 +95,13 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-primary rounded-lg">
-              <Wallet className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h1 className="text-3xl font-bold text-slate-900">Budget Tracker</h1>
-          </div>
-          <p className="text-slate-600">Track your expenses and analyze your spending patterns</p>
-        </div>
+        <Header />
 
-        {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="border-0 shadow-sm bg-white/80 backdrop-blur-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-red-100 rounded-lg">
-                  <TrendingUp className="h-5 w-5 text-red-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-600">Total Expenses</p>
-                  <p className="text-2xl font-bold text-slate-900">{formatMoney(total, settings.currency)}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-sm bg-white/80 backdrop-blur-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Calendar className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-600">Transactions</p>
-                  <p className="text-2xl font-bold text-slate-900">{filtered.length}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-sm bg-white/80 backdrop-blur-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <PieChartIcon className="h-5 w-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-600">Categories</p>
-                  <p className="text-2xl font-bold text-slate-900">{byCategory.length}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <KPICards
+          expenses={formatMoney(total, settings.currency)}
+          transactions={String(filtered.length)}
+          categories={String(byCategory.length)}
+        />
 
         {/* Add Expense Form */}
         <Card className="border-0 shadow-sm bg-white/80 backdrop-blur-sm mb-8">
