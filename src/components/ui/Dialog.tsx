@@ -120,12 +120,14 @@ const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
 DialogHeader.displayName = 'DialogHeader';
 
 const DialogTitle = React.forwardRef<HTMLHeadingElement, DialogTitleProps>(
-  ({ className, ...props }, ref) => (
+  ({ className, children, ...props }, ref) => (
     <h2
       ref={ref}
       className={cn('text-lg font-semibold leading-none tracking-tight', className)}
       {...props}
-    />
+    >
+      {children}
+    </h2>
   )
 );
 DialogTitle.displayName = 'DialogTitle';
