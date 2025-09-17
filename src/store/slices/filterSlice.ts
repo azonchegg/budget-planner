@@ -1,19 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Period } from '../../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Period } from '../../types'
 
 interface FilterState {
-  period: Period;
-  from: string;
-  to: string;
-  selectedCategory: string;
+  period: Period
+  from: string
+  to: string
+  selectedCategory: string
 }
 
 const initialState: FilterState = {
   period: 'month',
   from: '',
   to: '',
-  selectedCategory: '',
-};
+  selectedCategory: ''
+}
 
 export const filterSlice = createSlice({
   name: 'filters',
@@ -21,40 +21,34 @@ export const filterSlice = createSlice({
   reducers: {
     // Update period filter
     setPeriod: (state, action: PayloadAction<Period>) => {
-      state.period = action.payload;
+      state.period = action.payload
     },
-    
+
     // Update from date
     setFromDate: (state, action: PayloadAction<string>) => {
-      state.from = action.payload;
+      state.from = action.payload
     },
-    
+
     // Update to date
     setToDate: (state, action: PayloadAction<string>) => {
-      state.to = action.payload;
+      state.to = action.payload
     },
-    
+
     // Update selected category
     setSelectedCategory: (state, action: PayloadAction<string>) => {
-      state.selectedCategory = action.payload;
+      state.selectedCategory = action.payload
     },
-    
+
     // Reset all filters
     resetFilters: (state) => {
-      state.period = 'month';
-      state.from = '';
-      state.to = '';
-      state.selectedCategory = '';
-    },
-  },
-});
+      state.period = 'month'
+      state.from = ''
+      state.to = ''
+      state.selectedCategory = ''
+    }
+  }
+})
 
-export const {
-  setPeriod,
-  setFromDate,
-  setToDate,
-  setSelectedCategory,
-  resetFilters,
-} = filterSlice.actions;
+export const { setPeriod, setFromDate, setToDate, setSelectedCategory, resetFilters } = filterSlice.actions
 
-export default filterSlice.reducer;
+export default filterSlice.reducer

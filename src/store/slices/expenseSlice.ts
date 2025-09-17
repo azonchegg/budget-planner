@@ -1,18 +1,18 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Expense } from '../../types';
-import { generateId } from '../../utils';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Expense } from '../../types'
+import { generateId } from '../../utils'
 
 interface ExpenseState {
-  expenses: Expense[];
-  isLoading: boolean;
-  error: string | null;
+  expenses: Expense[]
+  isLoading: boolean
+  error: string | null
 }
 
 const initialState: ExpenseState = {
   expenses: [],
   isLoading: false,
-  error: null,
-};
+  error: null
+}
 
 export const expenseSlice = createSlice({
   name: 'expenses',
@@ -20,57 +20,50 @@ export const expenseSlice = createSlice({
   reducers: {
     // Load expenses from localStorage
     loadExpenses: (state, action: PayloadAction<Expense[]>) => {
-      state.expenses = action.payload;
-      state.isLoading = false;
+      state.expenses = action.payload
+      state.isLoading = false
     },
-    
+
     // Add new expense
     addExpense: (state, action: PayloadAction<Omit<Expense, 'id'>>) => {
       const newExpense: Expense = {
         id: generateId(),
-        ...action.payload,
-      };
-      state.expenses.unshift(newExpense); // Add to beginning of array
+        ...action.payload
+      }
+      state.expenses.unshift(newExpense) // Add to beginning of array
     },
-    
+
     // Update existing expense
     updateExpense: (state, action: PayloadAction<Expense>) => {
-      const index = state.expenses.findIndex(expense => expense.id === action.payload.id);
+      const index = state.expenses.findIndex((expense) => expense.id === action.payload.id)
       if (index !== -1) {
-        state.expenses[index] = action.payload;
+        state.expenses[index] = action.payload
       }
     },
-    
+
     // Delete expense
     deleteExpense: (state, action: PayloadAction<string>) => {
-      state.expenses = state.expenses.filter(expense => expense.id !== action.payload);
+      state.expenses = state.expenses.filter((expense) => expense.id !== action.payload)
     },
-    
+
     // Clear all expenses
     clearExpenses: (state) => {
-      state.expenses = [];
+      state.expenses = []
     },
-    
+
     // Set loading state
     setLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+      state.isLoading = action.payload
     },
-    
+
     // Set error state
     setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
-  },
-});
+      state.error = action.payload
+    }
+  }
+})
 
-export const {
-  loadExpenses,
-  addExpense,
-  updateExpense,
-  deleteExpense,
-  clearExpenses,
-  setLoading,
-  setError,
-} = expenseSlice.actions;
+export const { loadExpenses, addExpense, updateExpense, deleteExpense, clearExpenses, setLoading, setError } =
+  expenseSlice.actions
 
-export default expenseSlice.reducer;
+export default expenseSlice.reducer
