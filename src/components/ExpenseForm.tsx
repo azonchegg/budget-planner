@@ -1,48 +1,50 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
-import { Button } from './ui/Button';
-import { Input } from './ui/Input';
-import { Label } from './ui/Label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/Select';
-import { Plus } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { addExpense } from '../store/slices/expenseSlice';
-import { CURRENCY_SYMBOLS } from '../utils';
-import { CategoryManagement } from './CategoryManagement';
+import React, { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from './ui/Card'
+import { Button } from './ui/Button'
+import { Input } from './ui/Input'
+import { Label } from './ui/Label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/Select'
+import { Plus } from 'lucide-react'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { addExpense } from '../store/slices/expenseSlice'
+import { CURRENCY_SYMBOLS } from '../utils'
+import { CategoryManagement } from './CategoryManagement'
 
 export function ExpenseForm() {
-  const dispatch = useAppDispatch();
-  const { settings } = useAppSelector((state) => state.settings);
-  
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [note, setNote] = useState('');
+  const dispatch = useAppDispatch()
+  const { settings } = useAppSelector((state) => state.settings)
+
+  const [amount, setAmount] = useState('')
+  const [category, setCategory] = useState('')
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [note, setNote] = useState('')
 
   const getAllCategories = () => {
-    const defaultCategories = settings.categories.map((name: string) => ({ name, color: '#6B7280' }));
-    const customCategories = settings.customCategories.map((cat: any) => ({ name: cat.name, color: cat.color }));
-    return [...defaultCategories, ...customCategories];
-  };
+    const defaultCategories = settings.categories.map((name: string) => ({ name, color: '#6B7280' }))
+    const customCategories = settings.customCategories.map((cat: any) => ({ name: cat.name, color: cat.color }))
+    return [...defaultCategories, ...customCategories]
+  }
 
   const handleAddExpense = () => {
-    if (!amount || !category) return;
+    if (!amount || !category) return
 
-    dispatch(addExpense({
-      amount: parseFloat(amount),
-      category,
-      date,
-      note: note.trim() || undefined,
-    }));
+    dispatch(
+      addExpense({
+        amount: parseFloat(amount),
+        category,
+        date,
+        note: note.trim() || undefined
+      })
+    )
 
     // Reset form
-    setAmount('');
-    setCategory('');
-    setNote('');
-  };
+    setAmount('')
+    setCategory('')
+    setNote('')
+  }
 
   return (
-    <Card className="border-0 shadow-sm bg-white/80 backdrop-blur-sm mb-8">
+    <Card className="relative z-10 border-0 shadow-sm bg-white/80 backdrop-blur-sm mb-8">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -55,7 +57,9 @@ export function ExpenseForm() {
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div>
-            <Label htmlFor="amount">Amount ({CURRENCY_SYMBOLS[settings.currency as keyof typeof CURRENCY_SYMBOLS]})</Label>
+            <Label htmlFor="amount">
+              Amount ({CURRENCY_SYMBOLS[settings.currency as keyof typeof CURRENCY_SYMBOLS]})
+            </Label>
             <Input
               id="amount"
               type="number"
@@ -73,14 +77,11 @@ export function ExpenseForm() {
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                {getAllCategories().map((cat) => (
-                  <SelectItem key={cat.name} value={cat.name}>
+                {getAllCategories().map((category) => (
+                  <SelectItem key={category.name} value={category.name}>
                     <div className="flex items-center gap-2">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: cat.color }}
-                      />
-                      {cat.name}
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: category.color }} />
+                      {category.name}
                     </div>
                   </SelectItem>
                 ))}
@@ -89,13 +90,7 @@ export function ExpenseForm() {
           </div>
           <div>
             <Label htmlFor="date">Date</Label>
-            <Input
-              id="date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="mt-1"
-            />
+            <Input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} className="mt-1" />
           </div>
           <div className="md:col-span-2">
             <Label htmlFor="note">Note (optional)</Label>
@@ -114,5 +109,5 @@ export function ExpenseForm() {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }

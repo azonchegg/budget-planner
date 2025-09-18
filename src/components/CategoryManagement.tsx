@@ -9,6 +9,7 @@ import { CustomCategory } from '../types'
 import { generateId } from '../utils'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { addCustomCategory, updateCustomCategory, deleteCustomCategory } from '../store/slices/settingsSlice'
+import { createPortal } from 'react-dom'
 
 const predefinedColors = [
   '#3B82F6',
@@ -78,7 +79,8 @@ export function CategoryManagement() {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-2xl">
+      {createPortal(
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Manage Categories</DialogTitle>
             <DialogDescription>
@@ -226,7 +228,9 @@ export function CategoryManagement() {
               </CardContent>
             </Card>
           </div>
-        </DialogContent>
+        </DialogContent>,
+        document.body
+      )}
     </Dialog>
   )
 }
